@@ -18,14 +18,6 @@ export interface Room {
   nextAvailable?: string;
 }
 
-export interface VisitLog {
-  id: string;
-  date: string;
-  action: string;
-  duration?: string;
-  cost: number;
-}
-
 export interface Customer {
   id: string;
   name: string;
@@ -36,7 +28,35 @@ export interface Customer {
   membership: 'Basic' | 'Premium' | 'Enterprise';
   lastVisit: string;
   balance: number;
-  history: VisitLog[];
+}
+
+export interface Session {
+  id: string;
+  customerId: string;
+  roomId: string;
+  bookingId?: string | null;
+  startTime: string;
+  endTime?: string | null;
+  status: 'active' | 'closed';
+}
+
+export interface SessionItem {
+  id: number;
+  sessionId: string;
+  itemId: string;
+  quantity: number;
+  unitPrice: number;
+}
+
+export interface Payment {
+  id: string;
+  sessionId: string;
+  roomAmount: number;
+  itemsAmount: number;
+  totalAmount: number;
+  method: 'Cash' | 'Card' | 'Transfer';
+  status: 'pending' | 'paid' | 'refunded';
+  paidAt?: string | null;
 }
 
 export interface Booking {

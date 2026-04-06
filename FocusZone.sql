@@ -83,3 +83,58 @@ INSERT INTO bookings (id, customer_id, room_id, start_time, end_time, status, to
 
 INSERT INTO transactions (id, booking_id, customer_id, date, description, category, amount, method) VALUES
   ('t1', 'b1', 'c1', '2026-04-01', 'Focus Room 1 booking for Lina Ahmed', 'Income', 320.00, 'Card');
+
+CREATE TABLE sessions (
+  id VARCHAR(36) PRIMARY KEY,
+  customer_id VARCHAR(36) NOT NULL,
+  room_id VARCHAR(36) NOT NULL,
+  booking_id VARCHAR(36) NULL,
+  start_time DATETIME NOT NULL,
+  end_time DATETIME NULL,
+  status ENUM('active', 'closed') NOT NULL DEFAULT 'active',
+  FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE RESTRICT,
+  FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE RESTRICT,
+  FOREIGN KEY (booking_id) REFERENCES bookings(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE items (
+  id VARCHAR(36) PRIMARY KEY,
+  name VARCHAR(120) NOT NULL,
+  price DECIMAL(10,2) NOT NULL,
+  stock INT NOT NULL DEFAULT 0,
+  category ENUM('Drink', 'Snack', 'Office Supply', 'Service') NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE session_items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  session_id VARCHAR(36) NOT NULL,
+  item_id VARCHAR(36) NOT NULL,
+  quantity INT NOT NULL DEFAULT 1,
+  unit_price DECIMAL(10,2) NOT NULL,
+  FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE,
+  FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
+CREATE TABLE payments (
+  id VARCHAR(36) PRIMARY KEY,
+  session_id VARCHAR(36) NOT NULL UNIQUE,
+  room_amount DECIMAL(10,2) NOT NULL,
+  items_amount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  total_amount DECIMAL(10,2) NOT NULL,
+  method ENUM('Cash', 'Card', 'Transfer') NOT NULL,
+  status ENUM('pending', 'paid', 'refunded') NOT NULL DEFAULT 'pending',
+  paid_at TIMESTAMP NULL,
+  FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
+ALTER TABLE transactions
+  ADD COLUMN session_id VARCHAR(36) NULL AFTER booking_id,
+  ADD CONSTRAINT fk_transactions_session
+    FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE SET NULL;
+
+ALTER TABLE customers DROP COLUMN history;
+
+INSERT INTO items (id, name, price, stock, category) VALUES
+  ('i1', 'Water Bottle', 5.00, 50, 'Drink'),
+  ('i2', 'Coffee', 15.00, 30, 'Drink'),
+  ('i3', 'Chocolate Bar', 10.00, 20, 'Snack');
