@@ -1,45 +1,64 @@
 import express from 'express';
-import { pool, fetchJson } from '../db.js';
+import { pool } from '../db.js';
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  await fetchJson(res, "SELECT id, name, email, phone, age, gender, membership, DATE_FORMAT(last_visit, '%Y-%m-%d') AS lastVisit, CAST(balance AS DOUBLE) AS balance, history FROM customers ORDER BY name");
+  try {
+    const [rows] = await pool.query(
+      `SELECT customer_id, customer_name, customer_email, customer_phone, customer_age, customer_gender, 
+              customer_membership, DATE_FORMAT(customer_last_visit, '%Y-%m-%d') AS customer_last_visit, 
+              CAST(customer_balance AS DECIMAL(10,2)) AS customer_balance
+       FROM customers ORDER BY customer_name`
+    );
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Failed to fetch customers' });
+  }
 });
 
 // Create new customer
 router.post('/', async (req, res) => {
   try {
-    const { name, email, phone, age, gender, membership } = req.body;
-    const id = `c${Date.now()}`;
+    const { customer_name, customer_email, customer_phone, customer_age, customer_gender, customer_membership } = req.body;
+    const customer_id = `C${Date.now()}`;
     
     await pool.query(
-      'INSERT INTO customers (id, name, email, phone, age, gender, membership, last_visit, balance, history) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [id, name, email, phone, age, gender, membership, new Date().toISOString().split('T')[0], 0.0, JSON.stringify([])]
+      `INSERT INTO customers (customer_id, customer_name, customer_email, customer_phone, customer_age, customer_gender, customer_membership, customer_last_visit, customer_balance) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), 0)`,
+      [customer_id, customer_name, customer_email, customer_phone, customer_age, customer_gender, customer_membership]
     );
 
     const [[customer]] = await pool.query(
-      "SELECT id, name, email, phone, age, gender, membership, DATE_FORMAT(last_visit, '%Y-%m-%d') AS lastVisit, CAST(balance AS DOUBLE) AS balance, history FROM customers WHERE id = ?",
-      [id]
+      `SELECT customer_id, customer_name, customer_email, customer_phone, customer_age, customer_gender, 
+              customer_membership, DATE_FORMAT(customer_last_visit, '%Y-%m-%d') AS customer_last_visit, 
+              CAST(customer_balance AS DECIMAL(10,2)) AS customer_balance 
+       FROM customers WHERE customer_id = ?`,
+      [customer_id]
     );
-    res.status(201).json(customer);
+    res.status(201).json({ success: true, data: customer });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to create customer' });
+    res.status(500).json({ success: false, message: 'Failed to create customer' });
   }
 });
 
-// Assuming future needs for getting by id, update and delete
+// Get customer by id
 router.get('/:id', async (req, res) => {
   try {
     const [[customer]] = await pool.query(
-      "SELECT id, name, email, phone, age, gender, membership, DATE_FORMAT(last_visit, '%Y-%m-%d') AS lastVisit, CAST(balance AS DOUBLE) AS balance, history FROM customers WHERE id = ?",
+      `SELECT customer_id, customer_name, customer_email, customer_phone, customer_age, customer_gender, 
+              customer_membership, DATE_FORMAT(customer_last_visit, '%Y-%m-%d') AS customer_last_visit, 
+              CAST(customer_balance AS DECIMAL(10,2)) AS customer_balance 
+       FROM customers WHERE customer_id = ?`,
       [req.params.id]
     );
-    if (!customer) return res.status(404).json({ error: 'Customer not found' });
-    res.json(customer);
+    if (!customer) return res.status(404).json({ success: false, message: 'Customer not found' });
+    res.json({ success: true, data: customer });
   } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Server error' });
   }
 });
 

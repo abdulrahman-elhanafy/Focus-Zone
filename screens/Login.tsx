@@ -127,7 +127,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             </Card>
 
             <p className="mt-8 text-slate-400 text-sm">
-                © 2025 FocusZone Inc. v1.1.0 (Local Backend)
+                © 2025 FocusZone Inc. v1.1.0
             </p>
         </div>
     );

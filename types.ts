@@ -1,4 +1,3 @@
-
 export type Role = 'receptionist' | 'owner' | 'accountant' | null;
 
 export interface User {
@@ -8,63 +7,99 @@ export interface User {
   avatar: string;
 }
 
-export interface Room {
-  id: string;
-  name: string;
-  type: 'Private Office' | 'Meeting Room' | 'Hot Desk' | 'Conference Hall';
-  capacity: number;
-  pricePerHour: number;
-  status: 'available' | 'occupied' | 'maintenance' | 'reserved';
-  nextAvailable?: string;
-}
-
-export interface VisitLog {
-  id: string;
-  date: string;
-  action: string;
-  duration?: string;
-  cost: number;
-}
-
 export interface Customer {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  age: number;
-  gender: 'Male' | 'Female';
-  membership: 'Basic' | 'Premium' | 'Enterprise';
-  lastVisit: string;
-  balance: number;
-  history: VisitLog[];
+  customer_id: string;
+  customer_name: string;
+  customer_email: string;
+  customer_phone: string;
+  customer_age: number;
+  customer_gender: 'male' | 'female';
+  customer_membership: 'daily' | 'weekly' | 'monthly';
+  customer_last_visit: string;
+  customer_balance: number;
+}
+
+export interface Employee {
+  employee_id: string;
+  employee_name: string;
+  employee_email: string;
+  employee_phone: string;
+  employee_role: 'Manager' | 'Supervisor' | 'Reception' | 'Cashier' | 'HR' | 'Cleaner';
+  employee_salary: number;
+  employee_shift: 'Morning' | 'Evening' | 'Night';
+  employee_hire_date: string;
+  employee_status: 'Active' | 'Inactive';
+}
+
+export interface Room {
+  room_id: string;
+  room_name: string;
+  room_type: 'VIP' | 'Meeting' | 'Office' | 'Gaming';
+  room_capacity: number;
+  room_status: 'available' | 'occupied' | 'maintenance' | 'reserved';
+  price_per_hour?: number;
+  price_per_day?: number;
 }
 
 export interface Booking {
-  id: string;
-  roomId: string;
-  roomName: string;
-  customerName: string;
-  startTime: string;
-  endTime: string;
-  status: 'active' | 'upcoming' | 'completed' | 'cancelled';
-  totalAmount: number;
+  booking_id: string;
+  customer_id: string;
+  room_id: string;
+  start_time: string;
+  end_time: string;
+  status: 'confirmed' | 'completed' | 'cancelled';
+  total_amount: number;
+  created_at?: string;
+}
+
+export interface Session {
+  session_id: string;
+  customer_id: string;
+  room_id: string;
+  booking_id: string | null;
+  start_time: string;
+  end_time: string | null;
+  status: 'active' | 'completed' | 'cancelled';
+}
+
+export interface SessionItem {
+  id: number;
+  session_id: string;
+  item_id: string;
+  quantity: number;
+  unit_price: number;
+}
+
+export interface Item {
+  item_id: string;
+  item_name: string;
+  item_price: number;
+  item_stock: number;
+  item_category: 'Drinks' | 'Snacks' | 'Food';
+}
+
+export interface Payment {
+  payment_id: string;
+  session_id: string;
+  room_amount: number;
+  items_amount: number;
+  total_amount: number;
+  payment_method: 'Cash' | 'Visa' | 'Wallet';
+  payment_status: 'Paid' | 'Pending' | 'Cancelled' | 'Refunded';
+  paid_at: string | null;
 }
 
 export interface Transaction {
-  id: string;
-  date: string;
-  description: string;
-  category: 'Income' | 'Expense';
-  amount: number;
-  method: 'Card' | 'Cash' | 'Transfer';
-}
-
-export interface ServiceItem {
-  id: string;
-  name: string;
-  price: number;
-  stock: number;
-  category: 'Drink' | 'Snack' | 'Office Supply' | 'Service';
+  transaction_id: string;
+  booking_id: string | null;
+  session_id: string | null;
+  customer_id: string | null;
+  transaction_date: string;
+  transaction_description: string;
+  transaction_category: 'Booking' | 'Expense' | 'Refund';
+  transaction_amount: number;
+  transaction_method: 'Cash' | 'Visa' | 'Wallet';
+  created_at?: string;
 }
 
 // Navigation keys
