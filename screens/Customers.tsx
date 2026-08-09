@@ -28,9 +28,9 @@ const Customers: React.FC = () => {
         name: "",
         phone: "",
         email: "",
-        age: 0,
-        gender: "",
-        membership: "",
+        age: 25,
+        gender: "Male",
+        membership: "Basic",
     });
 
     useEffect(() => {
@@ -45,17 +45,25 @@ const Customers: React.FC = () => {
     };
 
     const handleCreateCustomer = async () => {
-        await API.customers.create(newCustomer as any);
-        setIsAddModalOpen(false);
-        setNewCustomer({
-            name: "",
-            phone: "",
-            email: "",
-            age: 25,
-            gender: "Male",
-            membership: "Basic",
-        }); // Reset
-        loadCustomers(); // Reload list
+        if (!newCustomer.name || !newCustomer.email || !newCustomer.phone) {
+            alert("Please provide the customer's name, email, and phone number.");
+            return;
+        }
+        try {
+            await API.customers.create(newCustomer as any);
+            setIsAddModalOpen(false);
+            setNewCustomer({
+                name: "",
+                phone: "",
+                email: "",
+                age: 25,
+                gender: "Male",
+                membership: "Basic",
+            }); // Reset
+            loadCustomers(); // Reload list
+        } catch (error: any) {
+            alert("Failed to create customer: " + error.message);
+        }
     };
 
     const filteredCustomers = customers.filter(
