@@ -5,6 +5,7 @@
 **FocusZone** is a full-stack **coworking space management dashboard** built with modern technologies. It provides comprehensive functionality for managing room bookings, customer relationships, employee operations, payments, and financial analytics for shared workspace facilities.
 
 ### Key Capabilities
+
 - 🏢 **Multi-room management** with dynamic pricing (Private Offices, Meeting Rooms, Hot Desks, Conference Halls)
 - 📅 **Advanced booking system** with real-time reservation and cancellation
 - 💰 **Payment processing** supporting multiple payment methods (Card, Cash, Transfer)
@@ -14,6 +15,7 @@
 - 📱 **Responsive dashboard** with data visualization
 
 ### Project Statistics
+
 - **10+ interactive screens** with role-specific views
 - **5 main API route groups** handling all business logic
 - **8 database tables** with referential integrity constraints
@@ -25,36 +27,40 @@
 ## 🛠️ Technology Stack
 
 ### Frontend
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| **React** | 19.2.1 | UI library for building interactive dashboards |
-| **TypeScript** | 5.8.2 | Static typing for type-safe development |
-| **Vite** | 6.2.0 | Lightning-fast build tool and dev server |
-| **Lucide React** | 0.556.0 | Icon library with 1000+ professional icons |
-| **Recharts** | 3.5.1 | Composable charting library for analytics |
-| **React-DOM** | 19.2.1 | React DOM rendering engine |
+
+| Technology       | Version | Purpose                                        |
+| ---------------- | ------- | ---------------------------------------------- |
+| **React**        | 19.2.1  | UI library for building interactive dashboards |
+| **TypeScript**   | 5.8.2   | Static typing for type-safe development        |
+| **Vite**         | 6.2.0   | Lightning-fast build tool and dev server       |
+| **Lucide React** | 0.556.0 | Icon library with 1000+ professional icons     |
+| **Recharts**     | 3.5.1   | Composable charting library for analytics      |
+| **React-DOM**    | 19.2.1  | React DOM rendering engine                     |
 
 ### Backend
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| **Node.js** | Latest | JavaScript runtime environment |
-| **Express.js** | 4.18.4 | Minimal web framework for REST APIs |
-| **CORS** | 2.8.5 | Cross-Origin Resource Sharing middleware |
-| **MySQL2** | 3.6.0 | MySQL driver with Promise support |
+
+| Technology     | Version | Purpose                                  |
+| -------------- | ------- | ---------------------------------------- |
+| **Node.js**    | Latest  | JavaScript runtime environment           |
+| **Express.js** | 4.18.4  | Minimal web framework for REST APIs      |
+| **CORS**       | 2.8.5   | Cross-Origin Resource Sharing middleware |
+| **MySQL2**     | 3.6.0   | MySQL driver with Promise support        |
 
 ### Database
-| Component | Details |
-|-----------|---------|
-| **Type** | MySQL 5.7+ |
-| **Database** | `focuszone` with UTF-8MB4 encoding |
-| **Tables** | 8 relational tables with InnoDB engine |
+
+| Component       | Details                                              |
+| --------------- | ---------------------------------------------------- |
+| **Type**        | MySQL 5.7+                                           |
+| **Database**    | `focuszone` with UTF-8MB4 encoding                   |
+| **Tables**      | 8 relational tables with InnoDB engine               |
 | **Constraints** | Foreign key relationships with referential integrity |
 
 ### Development Tools
-| Tool | Version | Purpose |
-|------|---------|---------|
-| **@vitejs/plugin-react** | 5.0.0 | Fast Refresh support for React in Vite |
-| **@types/node** | 22.14.0 | TypeScript definitions for Node.js |
+
+| Tool                     | Version | Purpose                                |
+| ------------------------ | ------- | -------------------------------------- |
+| **@vitejs/plugin-react** | 5.0.0   | Fast Refresh support for React in Vite |
+| **@types/node**          | 22.14.0 | TypeScript definitions for Node.js     |
 
 ---
 
@@ -68,21 +74,21 @@ graph TB
         React["React 19 Application<br/>TypeScript + Vite"]
         UI["UI Components<br/>Lucide Icons + Recharts"]
     end
-    
+
     subgraph Proxy["API Gateway"]
         Vite["Vite Dev Server<br/>Proxy: /api → localhost:4000"]
     end
-    
+
     subgraph Backend["Backend Layer (Port 4000)"]
         Express["Express.js Server<br/>Node.js Runtime"]
         Routes["API Routes<br/>Auth, Customers, Rooms,<br/>Bookings, Transactions"]
     end
-    
+
     subgraph Database["Data Layer"]
         MySQL["MySQL Database<br/>focuszone"]
         Tables["8 Tables with<br/>Referential Integrity"]
     end
-    
+
     React -->|HTTP Requests| Vite
     Vite -->|/api Proxy| Express
     Express --> Routes
@@ -98,7 +104,7 @@ sequenceDiagram
     participant ViteDev as Vite Dev Server<br/>:3000
     participant Backend as Express Server<br/>:4000
     participant Database as MySQL<br/>focuszone
-    
+
     Client->>ViteDev: HTTP Request<br/>/api/bookings
     activate ViteDev
     ViteDev->>Backend: Proxy Request
@@ -122,7 +128,7 @@ erDiagram
     ROOMS ||--o{ BOOKINGS : has
     ROOMS ||--o{ ROOM_PRICES : defines
     BOOKINGS ||--o{ TRANSACTIONS : generates
-    
+
     CUSTOMERS {
         string id PK
         string name
@@ -135,7 +141,7 @@ erDiagram
         decimal balance
         json history
     }
-    
+
     ROOMS {
         string id PK
         string name UK
@@ -143,7 +149,7 @@ erDiagram
         int capacity
         enum status
     }
-    
+
     ROOM_PRICES {
         int id PK
         string room_id FK
@@ -151,7 +157,7 @@ erDiagram
         decimal price_per_day
         timestamp created_at
     }
-    
+
     BOOKINGS {
         string id PK
         string customer_id FK
@@ -162,7 +168,7 @@ erDiagram
         decimal total_amount
         timestamp created_at
     }
-    
+
     TRANSACTIONS {
         string id PK
         string booking_id FK
@@ -181,6 +187,7 @@ erDiagram
 ## 📦 Setup & Installation
 
 ### Prerequisites
+
 - **Node.js** (v16+ recommended) - [Download](https://nodejs.org/)
 - **MySQL Server** (5.7+) - [Download](https://dev.mysql.com/downloads/)
 - **npm** (comes with Node.js)
@@ -240,11 +247,13 @@ GEMINI_API_KEY=your_gemini_api_key_here
 ### Step 4: Run Development Servers
 
 **Terminal 1 - Frontend (Vite Dev Server on port 3000):**
+
 ```bash
 npm run dev
 ```
 
 **Terminal 2 - Backend (Express on port 4000):**
+
 ```bash
 npm run start:server
 ```
@@ -271,6 +280,7 @@ npm run preview
 ## 🗄️ Database Schema
 
 ### Table: `customers`
+
 Stores customer/member profiles with membership information and wallet balance.
 
 ```sql
@@ -290,11 +300,13 @@ CREATE TABLE customers (
 ```
 
 **Key Features:**
+
 - Unique email constraint for authentication
 - JSON history field for flexible booking records
 - Membership-based pricing differentiation
 
 ### Table: `rooms`
+
 Represents physical rooms/spaces available for booking.
 
 ```sql
@@ -309,12 +321,14 @@ CREATE TABLE rooms (
 ```
 
 **Status Values:**
+
 - `available`: Open for booking
 - `occupied`: Currently in use
 - `maintenance`: Under maintenance
 - `reserved`: Pre-booked, not available
 
 ### Table: `room_prices`
+
 Dynamic pricing for each room (hourly and daily rates).
 
 ```sql
@@ -324,18 +338,20 @@ CREATE TABLE room_prices (
   price_per_hour DECIMAL(10,2) NOT NULL,
   price_per_day DECIMAL(10,2) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT fk_room_price_room FOREIGN KEY (room_id) 
+  CONSTRAINT fk_room_price_room FOREIGN KEY (room_id)
     REFERENCES rooms(id) ON DELETE CASCADE,
   UNIQUE KEY uq_room_price_room (room_id)
 );
 ```
 
 **Design Notes:**
+
 - One price record per room (unique constraint)
 - Supports both hourly and daily billing
 - Automatic cascade delete when room is deleted
 
 ### Table: `bookings`
+
 Customer room reservations with temporal constraints.
 
 ```sql
@@ -348,20 +364,22 @@ CREATE TABLE bookings (
   status ENUM('active', 'upcoming', 'completed', 'cancelled'),
   total_amount DECIMAL(10,2) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT fk_bookings_customer FOREIGN KEY (customer_id) 
+  CONSTRAINT fk_bookings_customer FOREIGN KEY (customer_id)
     REFERENCES customers(id) ON DELETE RESTRICT,
-  CONSTRAINT fk_bookings_room FOREIGN KEY (room_id) 
+  CONSTRAINT fk_bookings_room FOREIGN KEY (room_id)
     REFERENCES rooms(id) ON DELETE RESTRICT
 );
 ```
 
 **Status Lifecycle:**
+
 1. `upcoming` → booking confirmed, pending start time
 2. `active` → booking started, room is occupied
 3. `completed` → booking ended successfully
 4. `cancelled` → booking cancelled before start time
 
 ### Table: `transactions`
+
 Complete financial audit trail of all money movements.
 
 ```sql
@@ -375,96 +393,103 @@ CREATE TABLE transactions (
   amount DECIMAL(10,2) NOT NULL,        -- Transaction amount
   method ENUM('Card', 'Cash', 'Transfer'), -- Payment method
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT fk_transactions_booking FOREIGN KEY (booking_id) 
+  CONSTRAINT fk_transactions_booking FOREIGN KEY (booking_id)
     REFERENCES bookings(id) ON DELETE SET NULL,
-  CONSTRAINT fk_transactions_customer FOREIGN KEY (customer_id) 
+  CONSTRAINT fk_transactions_customer FOREIGN KEY (customer_id)
     REFERENCES customers(id) ON DELETE SET NULL
 );
 ```
 
 **Transaction Categories:**
+
 - **Income**: Booking payments, services, facility rentals
 - **Expense**: Maintenance, utilities, employee payroll
 
 ### Relationships & Constraints
 
-| Relationship | Type | Details |
-|-------------|------|---------|
-| Customer → Bookings | 1:N | One customer can have multiple bookings |
-| Room → Bookings | 1:N | One room can have multiple bookings |
-| Room → Room_Prices | 1:1 | Each room has one price record |
-| Booking → Transactions | 1:N | Each booking can generate multiple transactions |
-| Customer → Transactions | 1:N | Customer can have transaction history |
+| Relationship            | Type | Details                                         |
+| ----------------------- | ---- | ----------------------------------------------- |
+| Customer → Bookings     | 1:N  | One customer can have multiple bookings         |
+| Room → Bookings         | 1:N  | One room can have multiple bookings             |
+| Room → Room_Prices      | 1:1  | Each room has one price record                  |
+| Booking → Transactions  | 1:N  | Each booking can generate multiple transactions |
+| Customer → Transactions | 1:N  | Customer can have transaction history           |
 
 ---
 
 ## 🔌 API Routes & Endpoints
 
 ### Base URL
+
 ```
 Development: http://localhost:4000/api
 Production: [your-production-domain]/api
 ```
 
 ### Authentication Routes
+
 **File:** `server/routes/auth.js`
 
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| POST | `/api/auth/login` | User authentication & session creation |
-| POST | `/api/auth/logout` | End user session |
-| POST | `/api/auth/refresh` | Refresh authentication token |
+| Method | Endpoint            | Purpose                                |
+| ------ | ------------------- | -------------------------------------- |
+| POST   | `/api/auth/login`   | User authentication & session creation |
+| POST   | `/api/auth/logout`  | End user session                       |
+| POST   | `/api/auth/refresh` | Refresh authentication token           |
 
 ### Customers Routes
+
 **File:** `server/routes/customers.js`
 
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| GET | `/api/customers` | Fetch all customers |
-| GET | `/api/customers/:id` | Get customer details & history |
-| POST | `/api/customers` | Create new customer |
-| PUT | `/api/customers/:id` | Update customer profile |
-| DELETE | `/api/customers/:id` | Delete customer record |
-| GET | `/api/customers/:id/balance` | Check wallet balance |
-| PUT | `/api/customers/:id/balance` | Update wallet balance |
+| Method | Endpoint                     | Purpose                        |
+| ------ | ---------------------------- | ------------------------------ |
+| GET    | `/api/customers`             | Fetch all customers            |
+| GET    | `/api/customers/:id`         | Get customer details & history |
+| POST   | `/api/customers`             | Create new customer            |
+| PUT    | `/api/customers/:id`         | Update customer profile        |
+| DELETE | `/api/customers/:id`         | Delete customer record         |
+| GET    | `/api/customers/:id/balance` | Check wallet balance           |
+| PUT    | `/api/customers/:id/balance` | Update wallet balance          |
 
 ### Rooms Routes
+
 **File:** `server/routes/rooms.js`
 
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| GET | `/api/rooms` | Fetch all rooms with availability |
-| GET | `/api/rooms/:id` | Get room details & pricing |
-| POST | `/api/rooms` | Create new room |
-| PUT | `/api/rooms/:id` | Update room details |
-| DELETE | `/api/rooms/:id` | Delete room |
-| PUT | `/api/rooms/:id/status` | Update room status |
-| GET | `/api/rooms/:id/availability` | Check room availability window |
+| Method | Endpoint                      | Purpose                           |
+| ------ | ----------------------------- | --------------------------------- |
+| GET    | `/api/rooms`                  | Fetch all rooms with availability |
+| GET    | `/api/rooms/:id`              | Get room details & pricing        |
+| POST   | `/api/rooms`                  | Create new room                   |
+| PUT    | `/api/rooms/:id`              | Update room details               |
+| DELETE | `/api/rooms/:id`              | Delete room                       |
+| PUT    | `/api/rooms/:id/status`       | Update room status                |
+| GET    | `/api/rooms/:id/availability` | Check room availability window    |
 
 ### Bookings Routes
+
 **File:** `server/routes/bookings.js`
 
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| GET | `/api/bookings` | Fetch all bookings with filters |
-| GET | `/api/bookings/:id` | Get booking details |
-| POST | `/api/bookings` | Create new booking |
-| PUT | `/api/bookings/:id` | Update booking details |
-| DELETE | `/api/bookings/:id` | Cancel booking |
-| GET | `/api/bookings/room/:roomId` | Get bookings for specific room |
-| GET | `/api/bookings/customer/:customerId` | Get customer's bookings |
+| Method | Endpoint                             | Purpose                         |
+| ------ | ------------------------------------ | ------------------------------- |
+| GET    | `/api/bookings`                      | Fetch all bookings with filters |
+| GET    | `/api/bookings/:id`                  | Get booking details             |
+| POST   | `/api/bookings`                      | Create new booking              |
+| PUT    | `/api/bookings/:id`                  | Update booking details          |
+| DELETE | `/api/bookings/:id`                  | Cancel booking                  |
+| GET    | `/api/bookings/room/:roomId`         | Get bookings for specific room  |
+| GET    | `/api/bookings/customer/:customerId` | Get customer's bookings         |
 
 ### Transactions Routes
+
 **File:** `server/routes/transactions.js`
 
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| GET | `/api/transactions` | Fetch all transactions with filters |
-| GET | `/api/transactions/:id` | Get transaction details |
-| POST | `/api/transactions` | Create transaction record |
-| GET | `/api/transactions/report/summary` | Financial summary report |
-| GET | `/api/transactions/report/daily` | Daily revenue report |
-| GET | `/api/transactions/report/monthly` | Monthly revenue report |
+| Method | Endpoint                           | Purpose                             |
+| ------ | ---------------------------------- | ----------------------------------- |
+| GET    | `/api/transactions`                | Fetch all transactions with filters |
+| GET    | `/api/transactions/:id`            | Get transaction details             |
+| POST   | `/api/transactions`                | Create transaction record           |
+| GET    | `/api/transactions/report/summary` | Financial summary report            |
+| GET    | `/api/transactions/report/daily`   | Daily revenue report                |
+| GET    | `/api/transactions/report/monthly` | Monthly revenue report              |
 
 ### Error Handling
 
@@ -479,6 +504,7 @@ All endpoints return consistent error responses:
 ```
 
 **Common Status Codes:**
+
 - `200` - Successful operation
 - `201` - Resource created
 - `400` - Bad request (validation error)
@@ -498,33 +524,33 @@ The application implements three distinct role-based views with specialized dash
 ```mermaid
 graph TB
     Login["Login Screen"]
-    
+
     Login -->|Receptionist| RD["📱 Receptionist Dashboard"]
     Login -->|Owner| OD["📊 Owner Dashboard"]
     Login -->|Accountant| AD["💹 Accountant Dashboard"]
-    
+
     RD --> RDFeatures["<br/>• Active Sessions Monitor<br/>• Quick Check-In<br/>• Walk-in Management<br/>• POS/Services<br/>• Queue Management"]
-    
+
     OD --> ODFeatures["<br/>• Business Overview<br/>• Room Management<br/>• Occupancy Analytics<br/>• Revenue Metrics<br/>• Settings & Config"]
-    
+
     AD --> ADFeatures["<br/>• Financial Dashboard<br/>• Revenue Reports<br/>• Expense Tracking<br/>• Transaction Details<br/>• Monthly Analysis"]
 ```
 
 ### Screen Components
 
-| Screen | Role | Purpose | Key Features |
-|--------|------|---------|--------------|
-| **Login** | All | Authentication | Email/password auth, role selection |
-| **Receptionist Dashboard** | Receptionist | Operations Hub | Real-time session view, quick stats |
-| **Make Booking** | Receptionist | Reservation Management | Calendar picker, customer search, confirmation |
-| **Check-In** | Receptionist | Entry Management | QR code scan, session creation, payment |
-| **Services / POS** | Receptionist | Point of Sale | Item inventory, cart, transaction processing |
-| **Owner Dashboard** | Owner | Business Overview | KPIs, charts, occupancy rates |
-| **Rooms Management** | Owner | Room Configuration | Add/edit rooms, pricing, status management |
-| **Customers** | All | Customer CRM | Directory, profiles, search, history |
-| **Reports** | Owner/Accountant | Analytics | Charts, trends, export capability |
-| **Financial Reports** | Accountant | Financial Analysis | Revenue, expenses, profit margins |
-| **Settings** | Owner | Configuration | System preferences, user management |
+| Screen                     | Role             | Purpose                | Key Features                                   |
+| -------------------------- | ---------------- | ---------------------- | ---------------------------------------------- |
+| **Login**                  | All              | Authentication         | Email/password auth, role selection            |
+| **Receptionist Dashboard** | Receptionist     | Operations Hub         | Real-time session view, quick stats            |
+| **Make Booking**           | Receptionist     | Reservation Management | Calendar picker, customer search, confirmation |
+| **Check-In**               | Receptionist     | Entry Management       | QR code scan, session creation, payment        |
+| **Services / POS**         | Receptionist     | Point of Sale          | Item inventory, cart, transaction processing   |
+| **Owner Dashboard**        | Owner            | Business Overview      | KPIs, charts, occupancy rates                  |
+| **Rooms Management**       | Owner            | Room Configuration     | Add/edit rooms, pricing, status management     |
+| **Customers**              | All              | Customer CRM           | Directory, profiles, search, history           |
+| **Reports**                | Owner/Accountant | Analytics              | Charts, trends, export capability              |
+| **Financial Reports**      | Accountant       | Financial Analysis     | Revenue, expenses, profit margins              |
+| **Settings**               | Owner            | Configuration          | System preferences, user management            |
 
 ### Frontend Architecture
 
@@ -569,6 +595,7 @@ src/
 ### 1. Booking Management System
 
 **Features:**
+
 - Real-time room availability checking
 - Flexible booking duration (hourly/daily options)
 - Automatic price calculation based on room type and duration
@@ -576,6 +603,7 @@ src/
 - Automatic confirmation and reminder notifications
 
 **Business Rules:**
+
 ```
 - Minimum booking duration: 1 hour
 - Maximum booking duration: 30 days
@@ -587,11 +615,13 @@ src/
 ### 2. Payment Processing
 
 **Supported Methods:**
+
 - 💳 Card (Visa, Mastercard)
 - 💵 Cash (on-site payment)
 - 📱 Wallet Transfer (customer balance)
 
 **Payment Flow:**
+
 ```
 1. Customer selects room and books time slot
 2. System calculates total_amount from room_prices
@@ -616,17 +646,20 @@ src/
 ### 4. Financial Tracking
 
 **Income Categories:**
+
 - Room bookings (primary revenue)
 - Service fees (POS items)
 - Late fees (if applicable)
 
 **Expense Categories:**
+
 - Maintenance & repairs
 - Utilities & supplies
 - Employee payroll
 - Lease/facility costs
 
 **Reports Generated:**
+
 - Daily revenue report
 - Monthly financial summary
 - Year-to-date analysis
@@ -636,6 +669,7 @@ src/
 ### 5. Session Management
 
 **Session Lifecycle:**
+
 ```
 Customer Booking
     ↓
@@ -659,16 +693,19 @@ Session Completed
 ## 🔒 Security Considerations
 
 ### Authentication
+
 - Email/password authentication (implement JWT tokens)
 - Role-based access control (RBAC) on all API routes
 - Session management with expiration (recommend 24-hour timeout)
 
 ### Data Protection
+
 - MySQL connections use encrypted credentials from `.env`
 - SQL injection prevention via parameterized queries (mysql2 prepared statements)
 - CORS enabled only for trusted frontend origin
 
 ### Recommendations
+
 - Implement HTTPS in production
 - Use environment variables for all sensitive data
 - Add rate limiting to prevent API abuse
@@ -738,6 +775,7 @@ focuszone/
 ## 🎯 Performance Optimization
 
 ### Frontend Optimizations
+
 - **Code Splitting**: Vite automatically chunks components for lazy loading
 - **Tree Shaking**: Unused code removed during build
 - **Image Optimization**: Lucide icons are SVG-based (lightweight)
@@ -745,6 +783,7 @@ focuszone/
 - **State Management**: Recommend Redux or Zustand for large state
 
 ### Backend Optimizations
+
 - **Database Indexing**: Add indexes on frequently queried fields
   ```sql
   CREATE INDEX idx_customer_email ON customers(email);
@@ -757,6 +796,7 @@ focuszone/
 - **Connection Pooling**: mysql2 provides built-in connection pooling
 
 ### Recommended Additions
+
 - Add monitoring/logging (Winston or Pino)
 - Implement API rate limiting (express-rate-limit)
 - Add input validation (joi or zod)
@@ -769,11 +809,13 @@ focuszone/
 ### Frontend Deployment Options
 
 **Static Hosting (Recommended)**
+
 - Vercel: `vercel deploy`
 - Netlify: Drag & drop `dist/` folder
 - GitHub Pages: `npm run build` + deploy dist/
 
 **Example (Vercel):**
+
 ```bash
 npm install -g vercel
 npm run build
@@ -783,12 +825,14 @@ vercel
 ### Backend Deployment Options
 
 **Cloud Platforms**
+
 - **Heroku**: `git push heroku main`
 - **Railway**: Connect GitHub repo
 - **AWS EC2**: Ubuntu + Node.js setup
 - **DigitalOcean**: App Platform or Droplet
 
 **Docker Containerization (Recommended)**
+
 ```dockerfile
 FROM node:18-alpine
 WORKDIR /app
@@ -825,21 +869,25 @@ GEMINI_API_KEY=your-api-key
 ## 📝 Development Guidelines
 
 ### TypeScript Best Practices
+
 - Define types in [types.ts](types.ts) for all data models
 - Use strict mode: `"strict": true` in tsconfig.json
 - Avoid `any` type—use generics and unions instead
 
 ### Component Organization
+
 - One component per file
 - Keep components focused and reusable
 - Use custom hooks for shared logic
 
 ### API Consumption Pattern
+
 - Centralize API calls in [services/api.ts](services/api.ts)
 - Use error handling for all requests
 - Implement loading and error states
 
 ### Naming Conventions
+
 - Components: PascalCase (e.g., `CustomerDashboard`)
 - Functions/variables: camelCase (e.g., `fetchCustomers`)
 - Constants: UPPER_SNAKE_CASE (e.g., `API_BASE_URL`)
@@ -852,12 +900,14 @@ GEMINI_API_KEY=your-api-key
 ### Common Issues
 
 **Issue: "Cannot find module 'mysql2'"**
+
 ```bash
 # Solution: Install backend dependencies
 cd server && npm install && cd ..
 ```
 
 **Issue: "Port 3000/4000 already in use"**
+
 ```bash
 # Kill process on port
 npx kill-port 3000 4000
@@ -865,6 +915,7 @@ npx kill-port 3000 4000
 ```
 
 **Issue: "CORS error when calling /api endpoints"**
+
 ```javascript
 // Verify CORS is enabled in server/index.js
 app.use(cors());
@@ -879,6 +930,7 @@ proxy: {
 ```
 
 **Issue: "MySQL connection refused"**
+
 ```bash
 # Verify MySQL is running
 # Windows: Check Services app or run: mysql -u root -p
@@ -887,6 +939,7 @@ proxy: {
 ```
 
 **Issue: "Database import failed"**
+
 ```bash
 # Verify database creation
 mysql -u root -p < FocusZone.sql
@@ -900,6 +953,7 @@ mysql -u root -p -e "SHOW DATABASES;"
 ## 📚 Additional Resources
 
 ### Documentation Links
+
 - [React Documentation](https://react.dev)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [Vite Guide](https://vitejs.dev/guide/)
@@ -907,6 +961,7 @@ mysql -u root -p -e "SHOW DATABASES;"
 - [MySQL Documentation](https://dev.mysql.com/doc/)
 
 ### Tools & Extensions
+
 - **VS Code**: Install extensions
   - ES7+ React/Redux/React-Native snippets
   - Prettier - Code formatter
@@ -939,7 +994,7 @@ This project demonstrates expertise in:
 ✅ **Role-Based Access Control**: Multi-tenant user management  
 ✅ **Financial Systems**: Transaction tracking and reporting  
 ✅ **Real-time UI**: Dashboard updates and data visualization  
-✅ **DevOps Basics**: Environment configuration and deployment readiness  
+✅ **DevOps Basics**: Environment configuration and deployment readiness
 
 ---
 
